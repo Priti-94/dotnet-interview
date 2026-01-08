@@ -2,7 +2,7 @@
 
 ## Overview
 
-You've inherited a TODO API that was built quickly to meet a deadline. While it works, it needs significant refactoring to meet production standards. Your task is to refactor the codebase, fix architectural issues, and implement missing features.
+You've inherited a TODO API that was built quickly to meet a deadline. While it works, it needs significant refactoring to meet production standards. Your task is to refactor the codebase, fix architectural issues and add/fix unit tests.
 
 ## Time Limit
 
@@ -35,7 +35,6 @@ A working application with all the improvements implemented.
 Include a `SOLUTION.md` file that explains:
 - **Problems Identified**: What issues did you find in the original implementation?
 - **Architectural Decisions**: What architecture did you choose and why?
-- **Trade-offs**: What compromises did you make and why?
 - **How to Run**: Clear instructions for running the application and tests
 - **API Documentation**: How to use the endpoints
 - **Future Improvements**: What would you do if you had more time?
@@ -121,6 +120,4 @@ Send an email or message to the interviewer with:
 
 ## Questions?
 
-If you have clarifying questions about requirements, please reach out. We want you to succeed.
-
-Good luck! We're excited to see your approach to this problem.
+If you have clarifying questions about requirements, please reach out to our recruitment team.
