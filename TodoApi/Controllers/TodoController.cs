@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Models;
 using TodoApi.Services;
@@ -8,8 +9,10 @@ namespace TodoApi.Controllers
     [Route("api")]
     public class TodoController : ControllerBase
     {
-        public TodoController()
+        private readonly TodoService _todoService;
+        public TodoController(TodoService todoService)
         {
+            _todoService = todoService;
         }
 
         [HttpPost("createTodo")]
@@ -17,8 +20,7 @@ namespace TodoApi.Controllers
         {
             try
             {
-                var todoService = new TodoService();
-                var result = todoService.CreateTodo(todo);
+                var result = _todoService.CreateTodoAsync(todo);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -32,10 +34,10 @@ namespace TodoApi.Controllers
         {
             try
             {
-                var todoService = new TodoService();
+               
                 if (request.Id.HasValue)
                 {
-                    var todo = todoService.GetTodoById(request.Id.Value);
+                    var todo = _todoService.GetTodoByIdAsync(request.Id.Value);
                     if (todo == null)
                     {
                         return NotFound();
@@ -44,7 +46,7 @@ namespace TodoApi.Controllers
                 }
                 else
                 {
-                    var todos = todoService.GetAllTodos();
+                    var todos = _todoService.GetAllTodosAsync();
                     return Ok(todos);
                 }
             }
@@ -59,8 +61,8 @@ namespace TodoApi.Controllers
         {
             try
             {
-                var todoService = new TodoService();
-                var existingTodo = todoService.GetTodoById(request.Id);
+              
+                var existingTodo = _todoService.GetTodoByIdAsync(request.Id);
                 if (existingTodo == null)
                 {
                     return NotFound();
@@ -73,7 +75,7 @@ namespace TodoApi.Controllers
                     IsCompleted = request.IsCompleted
                 };
 
-                var result = todoService.UpdateTodo(request.Id, todo);
+                var result = _todoService.UpdateTodoAsync(request.Id, todo);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -87,9 +89,9 @@ namespace TodoApi.Controllers
         {
             try
             {
-                var todoService = new TodoService();
-                var result = todoService.DeleteTodo(request.Id);
-                if (result)
+               
+                var result = _todoService.DeleteTodoAsync(request.Id);
+                if (result.Result)
                 {
                     return Ok(new { message = "Todo deleted successfully" });
                 }
@@ -109,14 +111,22 @@ namespace TodoApi.Controllers
 
     public class UpdateTodoRequest
     {
+        [Required]
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+
+        [Required]
+        public required string Title { get; set; }
+
+        [Required]
+        public required string Description { get; set; }
+
+        [Required]
         public bool IsCompleted { get; set; }
     }
 
     public class DeleteTodoRequest
     {
+        [Required]
         public int Id { get; set; }
     }
 }
